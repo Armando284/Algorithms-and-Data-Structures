@@ -1,0 +1,28 @@
+{
+  "name": "algorithms-and-data-structures",
+  "version": "1.0.0",
+  "description": "My study on algorithm and data structures using JavaScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "ts-standard --fix",
+    "compile": "tsc",
+    "start": "nodemon --ignore 'dist/,node_modules/' --watch ./src/*.ts --exec \"pnpm lint && pnpm compile\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.0",
+    "ts-standard": "^12.0.2"
+  },
+  "ts-standard": {
+    "project": "tsconfig.json",
+    "ignore": [
+      "dist",
+      "src/**/*.js"
+    ]
+  }
+}
