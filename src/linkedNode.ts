@@ -1,10 +1,15 @@
-export default class LinkedNode<T> {
-  private _key: number | string
-  private _value: T
-  prev: LinkedNode<T> | null
-  next: LinkedNode<T> | null
+export interface LinkedNodeEntry {
+  key?: number | string
+  value: any
+}
 
-  constructor(key: number | string, value: T) {
+export class LinkedNode {
+  private _key?: number | string
+  private _value: any
+  prev: LinkedNode | null
+  next: LinkedNode | null
+
+  constructor({ key, value }: LinkedNodeEntry) {
     this._key = key
     this._value = value
     this.prev = null
