@@ -1,4 +1,4 @@
-export function binarySearch(haystack: number[], needle: number): boolean {
+export function binarySearch (haystack: number[], needle: number): boolean {
   let low = 0
   let high = haystack.length
   do {
