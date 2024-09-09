@@ -1,7 +1,7 @@
 import { LinkedNode } from './linkedNode.js'
 
 class EmptyListError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'List is empty.'
     this.message = message
@@ -9,7 +9,7 @@ class EmptyListError extends Error {
 }
 
 class NotFoundError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'Node not found.'
     this.message = message
@@ -20,68 +20,75 @@ export default class DoubleLinkedList {
   head: LinkedNode | null
   tail: LinkedNode | null
 
-  constructor() {
+  constructor () {
     this.head = null
     this.tail = null
   }
 
-  private get isListEmpty(): boolean {
-    return this.head === null && this.tail === null
+  private isListEmpty (): boolean {
+    return this.head === null || this.tail === null
   }
 
-  private findNode(key: number | string): LinkedNode | null {
-    if (this.isListEmpty) {
+  private findNode (key: number | string): LinkedNode | null {
+    if (this.isListEmpty()) {
       throw new EmptyListError()
     }
 
-    if (this.head && this.head.key === key) {
+    if (this.head !== null && this.head.key === key) {
       return this.head
     }
 
-    if (this.tail && this.tail.key === key) {
+    if (this.tail !== null && this.tail.key === key) {
       return this.tail
     }
 
-    let node = this.head?.next
+    let node =
+      this.head?.next !== null && this.head?.next !== undefined
+        ? this.head.next
+        : null
+
     do {
-      if (node && node.key === key) {
+      if (node !== null && node.key === key) {
         return node
       }
-      node = node?.next
+      node = node?.next !== null && node?.next !== undefined ? node.next : null
     } while (node !== null)
 
     throw new NotFoundError()
   }
 
-  add(node: LinkedNode): DoubleLinkedList {
-    if (this.isListEmpty) {
+  add (node: LinkedNode): DoubleLinkedList {
+    if (this.isListEmpty()) {
       this.head = node
       this.tail = this.head
       return this
     }
 
-    node.prev = this.tail
-    this.tail!.next = node
-    this.tail = node
+    if (this.tail != null) {
+      node.prev = this.tail
+      this.tail.next = node
+      this.tail = node
+    }
     return this
   }
 
-  addToHead(node: LinkedNode): DoubleLinkedList {
-    if (this.isListEmpty) {
+  addToHead (node: LinkedNode): DoubleLinkedList {
+    if (this.isListEmpty()) {
       this.head = node
       this.tail = this.head
       return this
     }
 
-    node.next = this.head
-    this.head!.prev = node
-    this.head = node
-
+    if (this.head != null) {
+      node.next = this.head
+      this.head.prev = node
+      this.head = node
+    }
     return this
   }
 
-  remove(key: number | string): DoubleLinkedList | null {
-    if (this.isListEmpty) {
+  remove (key: number | string): DoubleLinkedList | null {
+    if (this.isListEmpty()) {
       throw new EmptyListError()
     }
 
@@ -91,14 +98,14 @@ export default class DoubleLinkedList {
       throw new NotFoundError()
     }
 
-    if (node === this.head) {
-      this.head!.next!.prev = null
+    if (this.head?.next != null && node === this.head) {
+      this.head.next.prev = null
       this.head = this.head.next
       return this
     }
 
-    if (node === this.tail) {
-      this.tail!.prev!.next = null
+    if (this.tail?.prev != null && node === this.tail) {
+      this.tail.prev.next = null
       this.tail = this.tail.prev
       return this
     }
@@ -114,23 +121,25 @@ export default class DoubleLinkedList {
     return this
   }
 
-  removeTail(): DoubleLinkedList | null {
-    if (this.isListEmpty) {
+  removeTail (): DoubleLinkedList | null {
+    if (this.isListEmpty()) {
       throw new EmptyListError()
     }
-    this.tail!.prev!.next = null
-    this.tail = this.tail!.prev
+    if (this.tail?.prev != null) {
+      this.tail.prev.next = null
+      this.tail = this.tail.prev
+    }
     return this
   }
 
-  removeAll(): DoubleLinkedList {
+  removeAll (): DoubleLinkedList {
     this.head = null
     this.tail = null
     return this
   }
 
-  getValue(key: number | string): any | null {
-    if (this.isListEmpty) {
+  getValue (key: number | string): any | null {
+    if (this.isListEmpty()) {
       throw new EmptyListError()
     }
 
@@ -139,26 +148,24 @@ export default class DoubleLinkedList {
     return node === null ? null : node.value
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator] (): Generator<LinkedNode> {
     let node = this.head
 
     do {
-      yield node
-      node = node!.next
+      if (node !== null && node !== undefined) {
+        yield node
+      }
+      node = node?.next === null || node?.next === undefined ? null : node.next
     } while (node !== null)
   }
 
-  toString(callback: (node: DoubleLinkedList) => string): string {
-    if (
-      callback !== null &&
-      callback !== undefined &&
-      typeof callback === 'function'
-    ) {
-      callback(this)
+  toString (fn?: (list: DoubleLinkedList) => string): string {
+    if (fn !== null && fn !== undefined && typeof fn === 'function') {
+      fn(this)
     }
     let response = ''
     for (const node of this) {
-      response += node + ', '
+      response += `${node.toString()}, `
     }
     return response
   }

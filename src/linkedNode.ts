@@ -4,27 +4,33 @@ export interface LinkedNodeEntry {
 }
 
 export class LinkedNode {
-  private _key?: number | string
-  private _value: any
+  private readonly _key?: number | string
+  private readonly _value: any
   prev: LinkedNode | null
   next: LinkedNode | null
 
-  constructor({ key, value }: LinkedNodeEntry) {
+  constructor ({ key, value }: LinkedNodeEntry) {
     this._key = key
     this._value = value
     this.prev = null
     this.next = null
   }
 
-  get key() {
+  get key (): number | string | undefined {
     return this._key
   }
 
-  get value() {
+  get value (): any {
     return this._value
   }
 
-  toString(callback: (value: any) => string) {
-    return callback ? callback(this._value) : `{ ${this.key}: ${this.value} }`
+  toString (fn?: (value: any) => string): string {
+    return fn !== null && fn !== undefined && typeof fn === 'function'
+      ? fn(this)
+      : `{ ${
+          this.key !== undefined && this.key !== null
+            ? this.key.toString() + ': '
+            : ''
+        }${JSON.stringify(this.value)} }`
   }
 }
