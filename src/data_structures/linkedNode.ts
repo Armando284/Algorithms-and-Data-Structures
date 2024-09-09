@@ -27,8 +27,8 @@ export class LinkedNode<T> {
   toString(fn?: (value: any) => string): string {
     return fn !== null && fn !== undefined && typeof fn === 'function'
       ? fn(this)
-      : `{ ${this.key !== undefined ? this.key + ': ' : ''}${JSON.stringify(
-          this.value
-        )} }`
+      : `{ ${
+          this.key !== undefined ? this.key.toString() + ': ' : ''
+        }${JSON.stringify(this.value)} }`
   }
 }
