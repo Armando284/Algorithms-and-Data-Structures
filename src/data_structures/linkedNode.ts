@@ -9,22 +9,22 @@ export class LinkedNode<T> {
   prev: LinkedNode<T> | null
   next: LinkedNode<T> | null
 
-  constructor({ key, value }: LinkedNodeEntry<T>) {
+  constructor ({ key, value }: LinkedNodeEntry<T>) {
     this._key = key
     this._value = value
     this.prev = null
     this.next = null
   }
 
-  get key(): number | undefined {
+  get key (): number | undefined {
     return this._key
   }
 
-  get value(): T {
+  get value (): T {
     return this._value
   }
 
-  toString(fn?: (value: any) => string): string {
+  toString (fn?: (value: any) => string): string {
     return fn !== null && fn !== undefined && typeof fn === 'function'
       ? fn(this)
       : `{ ${
