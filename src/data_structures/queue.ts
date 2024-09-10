@@ -5,13 +5,13 @@ export class Queue<T> {
   private head?: LinkedNode<T>
   private tail?: LinkedNode<T>
 
-  constructor () {
+  constructor() {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  enqueue (item: T): void {
+  enqueue(item: T): void {
     this.length++
     const node = new LinkedNode<T>({ value: item })
     if (this.head === undefined || this.tail === undefined) {
@@ -24,7 +24,7 @@ export class Queue<T> {
     this.tail = node
   }
 
-  dequeue (): T | undefined {
+  dequeue(): T | undefined {
     if (this.head === undefined) {
       return
     }
@@ -32,11 +32,15 @@ export class Queue<T> {
     this.length--
     const node = this.head
     this.head = this.head.next
+    // Take care of tail in case there are no more nodes
+    if (this.length === 0) {
+      this.tail = undefined
+    }
     node.next = undefined // Here the previous head is entirely detached so it's on the hands of garbage collector
     return node.value
   }
 
-  peek (): T | undefined {
+  peek(): T | undefined {
     return this.head?.value
   }
 }
