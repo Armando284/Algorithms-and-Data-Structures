@@ -1,13 +1,13 @@
-import { LinkedNode } from '@/data_structures/linkedNode'
 import DoubleLinkedList from '@/data_structures/doubleLinkedList'
-import { hasValue } from '@/utils'
+
+type LRUCacheData<T> = { key: number; value: T }
 
 export default class LRU<T> {
   private readonly size: number
-  private readonly hash: Map<number | string, LinkedNode<T>>
-  list: DoubleLinkedList<T>
+  private readonly hash: Map<number, LRUCacheData<T>>
+  list: DoubleLinkedList<LRUCacheData<T>>
 
-  constructor (size: number) {
+  constructor(size: number) {
     // Size of the cache
     this.size = size
     // Hash map for faster access to keys
@@ -16,45 +16,43 @@ export default class LRU<T> {
     this.list = new DoubleLinkedList()
   }
 
-  push (key: number, value: any): LRU<T> {
+  push(key: number, value: T): LRU<T> {
+    const item = { key, value } as LRUCacheData<T>
     if (this.hash.has(key)) {
-      this.list.remove(key)
+      this.list.remove(item)
     }
 
-    const node = new LinkedNode<T>({ key, value })
-    this.list.prepend(node)
-    this.hash.set(key, node)
-    if (
-      this.hash.size > this.size &&
-      hasValue(this.list.tail) &&
-      hasValue(this.list.tail?.key)
-    ) {
-      this.hash.delete(this.list.tail?.key as number | string)
-      this.list.removeTail()
+    this.list.prepend(item)
+    this.hash.set(key, item)
+    if (this.hash.size > this.size) {
+      const tailKey = this.list.get(this.size)?.key
+      if (tailKey !== undefined) {
+        this.hash.delete(tailKey)
+      }
+      this.list.removeAt(this.size)
     }
     return this
   }
 
-  get (key: number): any | undefined {
+  get(key: number): T | undefined {
     if (!this.hash.has(key)) {
       return
     }
 
-    const node = this.hash.get(key)
+    const item = this.hash.get(key)
 
-    if (!hasValue(node)) {
+    if (item === undefined) {
       return
     }
 
-    if (node !== this.list.head) {
-      this.list.remove(key)
-      this.list.prepend(node as LinkedNode<T>)
-    }
+    // Para mejorar el rendimiento de esto hay que cambiar la implementacion de la lista
+    this.list.remove(item)
+    this.list.prepend(item)
 
-    return node?.value
+    return item.value
   }
 
-  toString (): string {
+  toString(): string {
     return this.list.toString()
   }
 }
