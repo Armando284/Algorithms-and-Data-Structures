@@ -1,169 +1,213 @@
 import { LinkedNode } from '@/data_structures/linkedNode'
+import { hasValue } from '@/utils'
+import { ILinkedList } from '@/interfaces/linkedList'
 
-class EmptyListError extends Error {
-  constructor (message: string = '') {
-    super()
-    this.name = 'List is empty.'
-    this.message = message
-  }
-}
+export default class DoubleLinkedList<T> implements ILinkedList<T> {
+  public length: number
+  private head?: LinkedNode<T>
+  private tail?: LinkedNode<T>
 
-class NotFoundError extends Error {
-  constructor (message: string = '') {
-    super()
-    this.name = 'Node not found.'
-    this.message = message
-  }
-}
-
-export default class DoubleLinkedList<T> {
-  head?: LinkedNode<T>
-  tail?: LinkedNode<T>
-
-  constructor () {
+  constructor() {
     this.head = undefined
     this.tail = undefined
+    this.length = 0
   }
 
-  private isListEmpty (): boolean {
-    return this.head === undefined || this.tail === undefined
-  }
-
-  private findNode (key: number | string): LinkedNode<T> | undefined {
-    if (this.isListEmpty()) {
-      throw new EmptyListError()
+  private findNode({
+    index,
+    item,
+  }: {
+    index?: number
+    item?: T
+  }): LinkedNode<T> | undefined {
+    if (
+      (!hasValue(index) && !hasValue(item)) ||
+      this.length === 0 ||
+      this.head === undefined
+    ) {
+      return
     }
+    let i = 0
+    let curr: LinkedNode<T> | undefined = this.head
 
-    if (this.head !== undefined && this.head.key === key) {
-      return this.head
-    }
-
-    if (this.tail !== undefined && this.tail.key === key) {
-      return this.tail
-    }
-
-    let node = this.head?.next
-
-    do {
-      if (node !== undefined && node.key === key) {
-        return node
+    while (curr !== undefined) {
+      if (hasValue(index) && index === i) {
+        return curr
       }
-      node = node?.next
-    } while (node !== undefined)
 
-    throw new NotFoundError()
+      if (hasValue(item) && item === curr.value) {
+        return curr
+      }
+
+      i++
+      curr = curr.next
+    }
+
+    return
   }
 
-  append (node: LinkedNode<T>): DoubleLinkedList<T> {
-    if (this.isListEmpty()) {
-      this.head = node
-      this.tail = this.head
-      return this
+  insertAt(item: T, index: number): void {
+    if (!hasValue(item)) {
+      return
     }
 
-    if (this.tail !== undefined) {
-      node.prev = this.tail
-      this.tail.next = node
-      this.tail = node
-    }
-    return this
-  }
-
-  prepend (node: LinkedNode<T>): DoubleLinkedList<T> {
-    if (this.isListEmpty()) {
-      this.head = node
-      this.tail = this.head
-      return this
+    // include insertAt 0 case
+    if (index === 0) {
+      this.prepend(item)
+      return
     }
 
-    if (this.head !== undefined) {
-      node.next = this.head
-      this.head.prev = node
-      this.head = node
-    }
-    return this
-  }
-
-  remove (key: number | string): DoubleLinkedList<T> | undefined {
-    if (this.isListEmpty()) {
-      throw new EmptyListError()
+    // include insertAt tail case
+    if (index === this.length) {
+      this.append(item)
+      return
     }
 
-    const node = this.findNode(key)
+    const node = this.findNode({ index })
 
     if (node === undefined) {
-      throw new NotFoundError()
+      return // position doesn't exist on the list
     }
 
-    if (this.head?.next !== undefined && node === this.head) {
-      this.head.next.prev = undefined
-      this.head = this.head.next
-      return this
+    const newNode = new LinkedNode<T>({ value: item })
+    newNode.next = node.next
+    if (node.next) {
+      node.next.prev = newNode
     }
+    newNode.prev = node
+    node.next = newNode
 
-    if (this.tail?.prev !== undefined && node === this.tail) {
-      this.tail.prev.next = undefined
-      this.tail = this.tail.prev
-      return this
-    }
-
-    if (node?.prev !== undefined) {
-      node.prev.next = node.next
-    }
-
-    if (node?.next !== undefined) {
-      node.next.prev = node.prev
-    }
-
-    return this
+    this.length++
   }
 
-  removeTail (): DoubleLinkedList<T> | undefined {
-    if (this.isListEmpty()) {
-      throw new EmptyListError()
-    }
-    if (this.tail?.prev !== undefined) {
-      this.tail.prev.next = undefined
-      this.tail = this.tail.prev
-    }
-    return this
-  }
-
-  removeAll (): DoubleLinkedList<T> {
+  private removeAll(): void {
     this.head = undefined
     this.tail = undefined
-    return this
+    this.length = 0
   }
 
-  getValue (key: number | string): any | undefined {
-    if (this.isListEmpty()) {
-      throw new EmptyListError()
+  remove(item: T): T | undefined {
+    if (!hasValue(item)) {
+      return
     }
 
-    const node = this.findNode(key)
+    const node = this.findNode({ item })
+    if (node === undefined) {
+      return
+    }
 
-    return node?.value
-  }
-
-  * [Symbol.iterator] (): Generator<LinkedNode<T>> {
-    let node = this.head
-
-    do {
-      if (node !== undefined) {
-        yield node
+    if (node === this.head) {
+      if (this.head.next === undefined) {
+        this.removeAll()
+        return item
       }
-      node = node?.next
-    } while (node !== undefined)
+      this.head.next.prev = undefined
+      this.head = this.head.next
+      this.length--
+      return item
+    }
+
+    if (node === this.tail) {
+      if (this.tail.prev !== undefined) {
+        // El caso de que fuera una lista de un solo nodo ya se valido en el head
+        this.tail.prev.next = undefined
+      }
+      this.tail = this.tail.prev
+      this.length--
+      return item
+    }
+
+    if (node.prev !== undefined) {
+      node.prev.next = node.next
+    }
+    if (node.next !== undefined) {
+      node.next.prev = node.prev
+    }
+    return item
   }
 
-  toString (fn?: (list: DoubleLinkedList<T>) => string): string {
-    if (fn !== null && fn !== undefined && typeof fn === 'function') {
-      fn(this)
+  removeAt(index: number): T | undefined {
+    if (!hasValue(index)) {
+      return
     }
-    let response = ''
-    for (const node of this) {
-      response += `${node.toString()}, `
+
+    const node = this.findNode({ index })
+    if (node === undefined) {
+      return
     }
-    return response
+
+    if (node === this.head) {
+      if (this.head.next === undefined) {
+        this.removeAll()
+        return node.value
+      }
+      this.head.next.prev = undefined
+      this.head = this.head.next
+      this.length--
+      return node.value
+    }
+
+    if (node === this.tail) {
+      if (this.tail.prev !== undefined) {
+        // El caso de que fuera una lista de un solo nodo ya se valido en el head
+        this.tail.prev.next = undefined
+      }
+      this.tail = this.tail.prev
+      this.length--
+      return node.value
+    }
+
+    if (node.prev !== undefined) {
+      node.prev.next = node.next
+    }
+    if (node.next !== undefined) {
+      node.next.prev = node.prev
+    }
+    return node.value
+  }
+
+  append(item: T): void {
+    if (!hasValue(item)) {
+      return
+    }
+
+    const newNode = new LinkedNode({ value: item })
+
+    if (this.head === undefined || this.tail === undefined) {
+      this.head = this.tail = newNode
+      this.length++
+      return
+    }
+
+    this.tail.next = newNode
+    newNode.prev = this.tail
+    this.tail = newNode
+    this.length++
+  }
+
+  prepend(item: T): void {
+    if (!hasValue(item)) {
+      return
+    }
+
+    const newNode = new LinkedNode({ value: item })
+
+    if (this.head === undefined || this.tail === undefined) {
+      this.head = this.tail = newNode
+      this.length++
+      return
+    }
+
+    newNode.next = this.head
+    this.head.prev = newNode
+    this.head = newNode
+    this.length++
+  }
+
+  get(index: number): T | undefined {
+    if (!hasValue(index)) {
+      return
+    }
+    return this.findNode({ index })?.value
   }
 }

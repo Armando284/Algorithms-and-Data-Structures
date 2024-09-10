@@ -1,20 +1,21 @@
 import { LinkedNode } from '@/data_structures/linkedNode'
 import { hasValue } from '@/utils'
+import { ILinkedList } from '@/interfaces/linkedList'
 
 export class LinkedList<T> implements ILinkedList<T> {
   public length: number
   private head?: LinkedNode<T>
   private tail?: LinkedNode<T>
 
-  constructor () {
+  constructor() {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  private findNode ({
+  private findNode({
     index,
-    item
+    item,
   }: {
     index?: number
     item?: T
@@ -39,27 +40,41 @@ export class LinkedList<T> implements ILinkedList<T> {
       i++
       curr = curr.next
     }
+
+    return
   }
 
-  insertAt (item: T, index: number): void {
-    const node = this.findNode({ index })?.[1]
-    if (!hasValue(node)) {
+  insertAt(item: T, index: number): void {
+    if (!hasValue(item)) {
       return
     }
-    const newNode = new LinkedNode<T>({ value: item })
 
-    // TODO include insertAt 0 case
-
-    // TODO include insertAt tail case
-
-    if (node !== undefined) {
-      newNode.next = node.next
-      node.next = newNode
-      this.length++
+    // include insertAt 0 case
+    if (index === 0) {
+      this.prepend(item)
+      return
     }
+
+    // include insertAt tail case
+    if (index === this.length) {
+      this.append(item)
+      return
+    }
+
+    const node = this.findNode({ index })?.[1]
+
+    if (node === undefined) {
+      return // position doesn't exist on the list
+    }
+
+    const newNode = new LinkedNode<T>({ value: item })
+    newNode.next = node.next
+    node.next = newNode
+
+    this.length++
   }
 
-  remove (item: T): T | undefined {
+  remove(item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
@@ -72,7 +87,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     if (node === this.head) {
       this.head = node.next
       this.length--
-      return item // ! No entiendo pq tengo que retornar <T> aquí
+      return item
     }
 
     const prev = this.findNode({ index: i })?.[1]
@@ -81,15 +96,15 @@ export class LinkedList<T> implements ILinkedList<T> {
       if (node === this.tail) {
         this.tail = prev
         this.length--
-        return item // ! No entiendo pq tengo que retornar <T> aquí
+        return item
       }
       prev.next = node.next
       this.length--
-      return item // ! No entiendo pq tengo que retornar <T> aquí
+      return item
     }
   }
 
-  removeAt (index: number): T | undefined {
+  removeAt(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
@@ -102,7 +117,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     if (node === this.head) {
       this.head = node.next
       this.length--
-      return node.value // ! No entiendo pq tengo que retornar <T> aquí
+      return node.value
     }
 
     const prev = this.findNode({ index: i })?.[1]
@@ -111,15 +126,15 @@ export class LinkedList<T> implements ILinkedList<T> {
       if (node === this.tail) {
         this.tail = prev
         this.length--
-        return node.value // ! No entiendo pq tengo que retornar <T> aquí
+        return node.value
       }
       prev.next = node.next
       this.length--
-      return node.value // ! No entiendo pq tengo que retornar <T> aquí
+      return node.value
     }
   }
 
-  append (item: T): void {
+  append(item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -138,7 +153,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  prepend (item: T): void {
+  prepend(item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -152,25 +167,15 @@ export class LinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    newNode.next = this.head.next
+    newNode.next = this.head
     this.head = newNode
     this.length++
   }
 
-  get (index: number): T | undefined {
+  get(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
     return this.findNode({ index })?.[1].value
   }
-}
-
-interface ILinkedList<T> {
-  get length(): number
-  insertAt: (item: T, index: number) => void
-  remove: (item: T) => T | undefined
-  removeAt: (index: number) => T | undefined
-  append: (item: T) => void
-  prepend: (item: T) => void
-  get: (index: number) => T | undefined
 }
