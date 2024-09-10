@@ -2,31 +2,31 @@ import { LinkedNode } from '@/data_structures/linkedNode'
 import { hasValue } from '@/utils'
 
 export class LinkedList<T> implements ILinkedList<T> {
-  private head: LinkedNode<T> | null
-  private tail: LinkedNode<T> | null
-  private count: number
+  public length: number
+  private head?: LinkedNode<T>
+  private tail?: LinkedNode<T>
 
-  constructor () {
-    this.head = null
-    this.tail = null
-    this.count = 0
+  constructor() {
+    this.head = undefined
+    this.tail = undefined
+    this.length = 0
   }
 
-  private findNode ({
+  private findNode({
     index,
-    item
+    item,
   }: {
     index?: number
     item?: T
   }): [number, LinkedNode<T>] | undefined {
-    if ((!hasValue(index) && !hasValue(item)) || !hasValue(this.head)) {
+    if ((!hasValue(index) && !hasValue(item)) || this.head === undefined) {
       return
     }
 
     let i = 0
-    let curr = this.head
+    let curr: LinkedNode<T> | undefined = this.head
 
-    while (curr !== null) {
+    while (curr !== undefined) {
       if (hasValue(index) && index === i) {
         return [i, curr]
       }
@@ -39,13 +39,11 @@ export class LinkedList<T> implements ILinkedList<T> {
       i++
       curr = curr.next
     }
+
+    return
   }
 
-  get length (): number {
-    return this.count
-  }
-
-  insertAt (item: T, index: number): void {
+  insertAt(item: T, index: number): void {
     const node = this.findNode({ index })?.[1]
     if (!hasValue(node)) {
       return
@@ -59,109 +57,109 @@ export class LinkedList<T> implements ILinkedList<T> {
     if (node !== undefined) {
       newNode.next = node.next
       node.next = newNode
-      this.count++
+      this.length++
     }
   }
 
-  remove (item: T): T | undefined {
+  remove(item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
     const find = this.findNode({ item })
-    if (find == null) {
+    if (find === undefined) {
       return
     }
 
     const [i, node] = find
     if (node === this.head) {
       this.head = node.next
-      this.count--
+      this.length--
       return item // ! No entiendo pq tengo que retornar <T> aquí
     }
 
     const prev = this.findNode({ index: i })?.[1]
 
-    if (prev !== undefined && prev !== null) {
+    if (prev !== undefined) {
       if (node === this.tail) {
         this.tail = prev
-        this.count--
+        this.length--
         return item // ! No entiendo pq tengo que retornar <T> aquí
       }
       prev.next = node.next
-      this.count--
+      this.length--
       return item // ! No entiendo pq tengo que retornar <T> aquí
     }
   }
 
-  removeAt (index: number): T | undefined {
+  removeAt(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
     const find = this.findNode({ index })
-    if (find == null) {
+    if (find === undefined) {
       return
     }
 
     const [i, node] = find
     if (node === this.head) {
       this.head = node.next
-      this.count--
+      this.length--
       return node.value // ! No entiendo pq tengo que retornar <T> aquí
     }
 
     const prev = this.findNode({ index: i })?.[1]
 
-    if (prev !== undefined && prev !== null) {
+    if (prev !== undefined) {
       if (node === this.tail) {
         this.tail = prev
-        this.count--
+        this.length--
         return node.value // ! No entiendo pq tengo que retornar <T> aquí
       }
       prev.next = node.next
-      this.count--
+      this.length--
       return node.value // ! No entiendo pq tengo que retornar <T> aquí
     }
   }
 
-  append (item: T): void {
+  append(item: T): void {
     if (!hasValue(item)) {
       return
     }
 
     const newNode = new LinkedNode({ value: item })
 
-    if (this.head === null || this.tail === null) {
+    if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
       this.tail = this.head
-      this.count++
+      this.length++
       return
     }
 
     this.tail.next = newNode
     this.tail = newNode
-    this.count++
+    this.length++
   }
 
-  prepend (item: T): void {
+  prepend(item: T): void {
     if (!hasValue(item)) {
       return
     }
 
     const newNode = new LinkedNode({ value: item })
 
-    if (this.head === null || this.tail === null) {
+    if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
       this.tail = this.head
-      this.count++
+      this.length++
       return
     }
 
     newNode.next = this.head.next
     this.head = newNode
-    this.count++
+    this.length++
   }
 
-  get (index: number): T | undefined {
+  get(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
