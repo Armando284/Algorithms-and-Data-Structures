@@ -6,15 +6,15 @@ export class LinkedList<T> implements ILinkedList<T> {
   private head?: LinkedNode<T>
   private tail?: LinkedNode<T>
 
-  constructor() {
+  constructor () {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  private findNode({
+  private findNode ({
     index,
-    item,
+    item
   }: {
     index?: number
     item?: T
@@ -39,11 +39,9 @@ export class LinkedList<T> implements ILinkedList<T> {
       i++
       curr = curr.next
     }
-
-    return
   }
 
-  insertAt(item: T, index: number): void {
+  insertAt (item: T, index: number): void {
     const node = this.findNode({ index })?.[1]
     if (!hasValue(node)) {
       return
@@ -61,7 +59,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  remove(item: T): T | undefined {
+  remove (item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
@@ -91,7 +89,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  removeAt(index: number): T | undefined {
+  removeAt (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
@@ -121,7 +119,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  append(item: T): void {
+  append (item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -140,7 +138,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  prepend(item: T): void {
+  prepend (item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -159,7 +157,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  get(index: number): T | undefined {
+  get (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }

@@ -1,7 +1,7 @@
 import { LinkedNode } from '@/data_structures/linkedNode'
 
 class EmptyListError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'List is empty.'
     this.message = message
@@ -9,7 +9,7 @@ class EmptyListError extends Error {
 }
 
 class NotFoundError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'Node not found.'
     this.message = message
@@ -20,16 +20,16 @@ export default class DoubleLinkedList<T> {
   head?: LinkedNode<T>
   tail?: LinkedNode<T>
 
-  constructor() {
+  constructor () {
     this.head = undefined
     this.tail = undefined
   }
 
-  private isListEmpty(): boolean {
+  private isListEmpty (): boolean {
     return this.head === undefined || this.tail === undefined
   }
 
-  private findNode(key: number | string): LinkedNode<T> | undefined {
+  private findNode (key: number | string): LinkedNode<T> | undefined {
     if (this.isListEmpty()) {
       throw new EmptyListError()
     }
@@ -54,7 +54,7 @@ export default class DoubleLinkedList<T> {
     throw new NotFoundError()
   }
 
-  append(node: LinkedNode<T>): DoubleLinkedList<T> {
+  append (node: LinkedNode<T>): DoubleLinkedList<T> {
     if (this.isListEmpty()) {
       this.head = node
       this.tail = this.head
@@ -69,7 +69,7 @@ export default class DoubleLinkedList<T> {
     return this
   }
 
-  prepend(node: LinkedNode<T>): DoubleLinkedList<T> {
+  prepend (node: LinkedNode<T>): DoubleLinkedList<T> {
     if (this.isListEmpty()) {
       this.head = node
       this.tail = this.head
@@ -84,7 +84,7 @@ export default class DoubleLinkedList<T> {
     return this
   }
 
-  remove(key: number | string): DoubleLinkedList<T> | undefined {
+  remove (key: number | string): DoubleLinkedList<T> | undefined {
     if (this.isListEmpty()) {
       throw new EmptyListError()
     }
@@ -118,7 +118,7 @@ export default class DoubleLinkedList<T> {
     return this
   }
 
-  removeTail(): DoubleLinkedList<T> | undefined {
+  removeTail (): DoubleLinkedList<T> | undefined {
     if (this.isListEmpty()) {
       throw new EmptyListError()
     }
@@ -129,13 +129,13 @@ export default class DoubleLinkedList<T> {
     return this
   }
 
-  removeAll(): DoubleLinkedList<T> {
+  removeAll (): DoubleLinkedList<T> {
     this.head = undefined
     this.tail = undefined
     return this
   }
 
-  getValue(key: number | string): any | undefined {
+  getValue (key: number | string): any | undefined {
     if (this.isListEmpty()) {
       throw new EmptyListError()
     }
@@ -145,7 +145,7 @@ export default class DoubleLinkedList<T> {
     return node?.value
   }
 
-  *[Symbol.iterator](): Generator<LinkedNode<T>> {
+  * [Symbol.iterator] (): Generator<LinkedNode<T>> {
     let node = this.head
 
     do {
@@ -156,7 +156,7 @@ export default class DoubleLinkedList<T> {
     } while (node !== undefined)
   }
 
-  toString(fn?: (list: DoubleLinkedList<T>) => string): string {
+  toString (fn?: (list: DoubleLinkedList<T>) => string): string {
     if (fn !== null && fn !== undefined && typeof fn === 'function') {
       fn(this)
     }
