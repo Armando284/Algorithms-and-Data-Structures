@@ -7,7 +7,7 @@ export const hasValue = (value: any): boolean =>
   value !== undefined && value !== null
 
 export class EmptyListError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'List is empty.'
     this.message = message
@@ -15,7 +15,7 @@ export class EmptyListError extends Error {
 }
 
 export class NotFoundError extends Error {
-  constructor(message: string = '') {
+  constructor (message: string = '') {
     super()
     this.name = 'Node not found.'
     this.message = message
