@@ -67,7 +67,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
       return // position doesn't exist on the list
     }
 
-    const newNode = new LinkedNode<T>({ value: item })
+    const newNode = new LinkedNode<T>(item)
     newNode.next = node.next
     if (node.next != null) {
       node.next.prev = newNode
@@ -169,7 +169,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode({ value: item })
+    const newNode = new LinkedNode(item)
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = this.tail = newNode
@@ -188,7 +188,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode({ value: item })
+    const newNode = new LinkedNode(item)
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = this.tail = newNode

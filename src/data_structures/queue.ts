@@ -13,7 +13,7 @@ export class Queue<T> {
 
   enqueue (item: T): void {
     this.length++
-    const node = new LinkedNode<T>({ value: item })
+    const node = new LinkedNode<T>(item)
     if (this.head === undefined || this.tail === undefined) {
       this.head = node
       this.tail = node

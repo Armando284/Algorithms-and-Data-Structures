@@ -65,7 +65,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return // position doesn't exist on the list
     }
 
-    const newNode = new LinkedNode<T>({ value: item })
+    const newNode = new LinkedNode<T>(item)
     newNode.next = node.next
     node.next = newNode
 
@@ -137,7 +137,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode({ value: item })
+    const newNode = new LinkedNode(item)
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
@@ -156,7 +156,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode({ value: item })
+    const newNode = new LinkedNode(item)
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
