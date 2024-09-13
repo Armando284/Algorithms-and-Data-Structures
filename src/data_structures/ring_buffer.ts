@@ -8,9 +8,9 @@ export class RingBuffer<T> {
   private readonly resizeGrowth: number
   private length: number
 
-  constructor({
+  constructor ({
     length = 10,
-    resizeGrowth = 10,
+    resizeGrowth = 10
   }: {
     length?: number
     resizeGrowth?: number
@@ -23,15 +23,15 @@ export class RingBuffer<T> {
   }
 
   // capacity
-  private get cap(): number {
+  private get cap (): number {
     return this.list.length
   }
 
-  private rest(a: number, b: number = this.cap): number {
+  private rest (a: number, b: number = this.cap): number {
     return a % b
   }
 
-  enqueue(item: T): void {
+  enqueue (item: T): void {
     if (item === undefined) {
       return
     }
@@ -67,7 +67,7 @@ export class RingBuffer<T> {
     this.list[this.rest(this.tail)] = item
   }
 
-  dequeue(): T | undefined {
+  dequeue (): T | undefined {
     const item = this.list[this.rest(this.head)]
 
     this.list[this.rest(this.head)] = undefined
@@ -76,7 +76,7 @@ export class RingBuffer<T> {
     return item
   }
 
-  peek(): T | undefined {
+  peek (): T | undefined {
     return this.list[this.rest(this.head)]
   }
 }
