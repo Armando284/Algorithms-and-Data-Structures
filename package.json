@@ -8,7 +8,8 @@
     "lint": "ts-standard --fix",
     "compile": "tsc",
     "dev": "tsc -w",
-    "test": "vitest"
+    "test": "vitest",
+    "check": "npm run lint && npm run compile && node"
   },
   "keywords": [],
   "author": "",
