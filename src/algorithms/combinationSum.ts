@@ -1,8 +1,12 @@
 // combinations
-function combinationSum(candidates: number[], target: number): number[][] {
+function combinationSum (candidates: number[], target: number): number[][] {
   const result: number[][] = []
 
-  function backtrack(start: number, target: number, combination: number[]) {
+  function backtrack (
+    start: number,
+    target: number,
+    combination: number[]
+  ): void {
     if (target === 0) {
       result.push([...combination])
       return
