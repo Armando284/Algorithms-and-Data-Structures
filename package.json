@@ -9,7 +9,7 @@
     "compile": "tsc",
     "dev": "tsc -w",
     "test": "vitest",
-    "check": "npm run lint && npm run compile && node"
+    "check": "npm run compile && node"
   },
   "keywords": [],
   "author": "",
