@@ -1,4 +1,4 @@
-import DoubleLinkedList from '@/data_structures/doubleLinkedList'
+import DoubleLinkedList from '@/data_structures/double_linked_list'
 
 interface LRUCacheData<T> {
   key: number
@@ -10,7 +10,7 @@ export default class LRU<T> {
   private readonly hash: Map<number, LRUCacheData<T>>
   list: DoubleLinkedList<LRUCacheData<T>>
 
-  constructor (size: number) {
+  constructor(size: number) {
     // Size of the cache
     this.size = size
     // Hash map for faster access to keys
@@ -19,7 +19,7 @@ export default class LRU<T> {
     this.list = new DoubleLinkedList()
   }
 
-  push (key: number, value: T): LRU<T> {
+  push(key: number, value: T): LRU<T> {
     const item: LRUCacheData<T> = { key, value }
     if (this.hash.has(key)) {
       this.list.remove(item)
@@ -37,7 +37,7 @@ export default class LRU<T> {
     return this
   }
 
-  get (key: number): T | undefined {
+  get(key: number): T | undefined {
     if (!this.hash.has(key)) {
       return
     }

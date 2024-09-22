@@ -1,21 +1,21 @@
-import { LinkedNode } from '@/data_structures/linkedNode'
+import { LinkedNode } from '@/data_structures/linked_node'
 import { hasValue } from '@/utils'
-import { ILinkedList } from '@/interfaces/linkedList'
+import { ILinkedList } from '@/interfaces/linked_list'
 
 export class LinkedList<T> implements ILinkedList<T> {
   public length: number
   private head?: LinkedNode<T>
   private tail?: LinkedNode<T>
 
-  constructor () {
+  constructor() {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  private findNode ({
+  private findNode({
     index,
-    item
+    item,
   }: {
     index?: number
     item?: T
@@ -42,7 +42,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  insertAt (item: T, index: number): void {
+  insertAt(item: T, index: number): void {
     if (!hasValue(item)) {
       return
     }
@@ -72,7 +72,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  remove (item: T): T | undefined {
+  remove(item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
@@ -102,7 +102,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  removeAt (index: number): T | undefined {
+  removeAt(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
@@ -132,7 +132,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  append (item: T): void {
+  append(item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -151,7 +151,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  prepend (item: T): void {
+  prepend(item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -170,7 +170,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  get (index: number): T | undefined {
+  get(index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }

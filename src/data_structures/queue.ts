@@ -1,17 +1,17 @@
-import { LinkedNode } from './linkedNode'
+import { LinkedNode } from './linked_node'
 
 export class Queue<T> {
   public length: number
   private head?: LinkedNode<T>
   private tail?: LinkedNode<T>
 
-  constructor () {
+  constructor() {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  enqueue (item: T): void {
+  enqueue(item: T): void {
     this.length++
     const node = new LinkedNode<T>(item)
     if (this.head === undefined || this.tail === undefined) {
@@ -24,7 +24,7 @@ export class Queue<T> {
     this.tail = node
   }
 
-  dequeue (): T | undefined {
+  dequeue(): T | undefined {
     if (this.head === undefined) {
       return
     }
@@ -40,7 +40,7 @@ export class Queue<T> {
     return node.value
   }
 
-  peek (): T | undefined {
+  peek(): T | undefined {
     return this.head?.value
   }
 }
