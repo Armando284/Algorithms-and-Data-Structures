@@ -1,7 +1,7 @@
 import { BinaryNode } from '@/interfaces/nodes'
 
-export default function postOrder(root: BinaryNode<number>): number[] {
-  function walk(curr: BinaryNode<number> | null, path: number[]): number[] {
+export default function postOrder (root: BinaryNode<number>): number[] {
+  function walk (curr: BinaryNode<number> | null, path: number[]): number[] {
     if (curr === null) {
       return path
     }
