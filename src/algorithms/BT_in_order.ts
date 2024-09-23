@@ -1,12 +1,8 @@
-interface TreeNode<T> {
-  value: T
-  left?: TreeNode<T>
-  right?: TreeNode<T>
-}
+import { BinaryNode } from '@/interfaces/nodes'
 
-export default function inOrder (root: TreeNode<number>): number[] {
-  function walk (curr: TreeNode<number> | undefined, path: number[]): number[] {
-    if (curr === undefined) {
+export default function inOrder(root: BinaryNode<number>): number[] {
+  function walk(curr: BinaryNode<number> | null, path: number[]): number[] {
+    if (curr === null) {
       return path
     }
 

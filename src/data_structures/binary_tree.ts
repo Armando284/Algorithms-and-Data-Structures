@@ -1,21 +1,16 @@
-export interface BTNode<T> {
-  value: T
-  parent: BTNode<T> | null
-  left: BTNode<T> | null
-  right: BTNode<T> | null
-}
+import { BinaryNode } from '@/interfaces/nodes'
 
 export class BinaryTree<T> {
-  private root: BTNode<T> | null
+  private root: BinaryNode<T> | null
   height: number
 
-  constructor () {
+  constructor() {
     this.root = null
     this.height = 0
   }
 
-  private findNode (value: T): BTNode<T> | null {
-    function walk (curr: BTNode<T> | null, value: T): BTNode<T> | null {
+  private findNode(value: T): BinaryNode<T> | null {
+    function walk(curr: BinaryNode<T> | null, value: T): BinaryNode<T> | null {
       if (curr === null) {
         return null
       }
@@ -32,7 +27,7 @@ export class BinaryTree<T> {
     return walk(this.root, value)
   }
 
-  private addNode (node: BTNode<T>): void {}
+  private addNode(node: BinaryNode<T>): void {}
 
   // add
   // public add() {}
@@ -40,7 +35,7 @@ export class BinaryTree<T> {
   // get
   // update
   // delete
-  public delete (value: T): BinaryTree<T> {
+  public delete(value: T): BinaryTree<T> {
     const node = this.findNode(value)
 
     // value not found
@@ -70,7 +65,7 @@ export class BinaryTree<T> {
   }
 
   // delete all
-  public deleteAll (): BinaryTree<T> {
+  public deleteAll(): BinaryTree<T> {
     this.root = null
     return this
   }

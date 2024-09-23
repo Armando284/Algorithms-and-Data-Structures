@@ -1,12 +1,8 @@
-interface BTNode<T> {
-  value: T
-  left?: BTNode<T>
-  right?: BTNode<T>
-}
+import { BinaryNode } from '@/interfaces/nodes'
 
-export default function postOrder (root: BTNode<number>): number[] {
-  function walk (curr: BTNode<number> | undefined, path: number[]): number[] {
-    if (curr === undefined) {
+export default function postOrder(root: BinaryNode<number>): number[] {
+  function walk(curr: BinaryNode<number> | null, path: number[]): number[] {
+    if (curr === null) {
       return path
     }
 
