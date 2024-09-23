@@ -5,12 +5,12 @@ export class Stack<T> {
   public length: number
   private head?: LinkedNode<T>
 
-  constructor() {
+  constructor () {
     this.head = undefined
     this.length = 0
   }
 
-  push(item: T): void {
+  push (item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -27,7 +27,7 @@ export class Stack<T> {
     this.head = node
   }
 
-  pop(): T | undefined {
+  pop (): T | undefined {
     if (this.head === undefined) {
       return
     }
@@ -40,7 +40,7 @@ export class Stack<T> {
     return node?.value
   }
 
-  peek(): T | undefined {
+  peek (): T | undefined {
     return this.head?.value
   }
 }
