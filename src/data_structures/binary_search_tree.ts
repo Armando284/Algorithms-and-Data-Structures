@@ -1,6 +1,6 @@
 import { BinaryNode } from '@/interfaces/nodes'
 
-export class BinaryTree<T> {
+export class BinarySearchTree<T> {
   private root: BinaryNode<T> | null
   height: number
 
@@ -35,7 +35,7 @@ export class BinaryTree<T> {
   // get
   // update
   // delete
-  public delete (value: T): BinaryTree<T> {
+  public delete (value: T): BinarySearchTree<T> {
     const node = this.findNode(value)
 
     // value not found
@@ -65,7 +65,7 @@ export class BinaryTree<T> {
   }
 
   // delete all
-  public deleteAll (): BinaryTree<T> {
+  public deleteAll (): BinarySearchTree<T> {
     this.root = null
     return this
   }
