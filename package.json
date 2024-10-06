@@ -5,11 +5,11 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "lint": "ts-standard --fix",
+    "lint": "ts-standard",
+    "lint-fix": "ts-standard --fix",
     "compile": "tsc",
     "dev": "tsc -w",
-    "test": "vitest",
-    "check": "npm run compile && node"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
