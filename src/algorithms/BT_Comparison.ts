@@ -1,10 +1,10 @@
 // Comparison of value AND shape
 // Recursion keeps shape so DFS is mandatory
-import { BinaryNode } from '@/interfaces/nodes'
+import { IBinaryNode } from '@/interfaces/nodes'
 
-export default function compare (
-  a: BinaryNode<number> | null,
-  b: BinaryNode<number> | null
+export default function compare(
+  a: IBinaryNode<number> | null,
+  b: IBinaryNode<number> | null
 ): boolean {
   // if we got to the leafs and both are null TRUE
   // (we never found a false condition to return before)

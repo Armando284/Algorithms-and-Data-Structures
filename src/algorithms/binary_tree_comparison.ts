@@ -2,11 +2,11 @@
  * Compare two binary trees in value AND shape
  */
 
-import { BinaryNode } from '@/interfaces/nodes'
+import { IBinaryNode } from '@/interfaces/nodes'
 
-export default function compare (
-  a: BinaryNode<number> | null,
-  b: BinaryNode<number> | null
+export default function compare(
+  a: IBinaryNode<number> | null,
+  b: IBinaryNode<number> | null
 ): boolean {
   if (a === null && b === null) {
     return true

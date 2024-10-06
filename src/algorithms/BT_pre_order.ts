@@ -1,7 +1,7 @@
-import { BinaryNode } from '@/interfaces/nodes'
+import { IBinaryNode } from '@/interfaces/nodes'
 
-export default function preOrder (root: BinaryNode<number>): number[] {
-  function walk (curr: BinaryNode<number> | null, path: number[]): number[] {
+export default function preOrder(root: IBinaryNode<number>): number[] {
+  function walk(curr: IBinaryNode<number> | null, path: number[]): number[] {
     if (curr === null) {
       return path
     }

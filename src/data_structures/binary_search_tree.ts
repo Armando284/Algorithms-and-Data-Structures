@@ -1,72 +1,114 @@
-import { BinaryNode } from '@/interfaces/nodes'
+import { IBinaryNode } from '@/interfaces/nodes'
 
 export class BinarySearchTree<T> {
-  private root: BinaryNode<T> | null
+  private root: IBinaryNode<T> | null
   height: number
 
-  constructor () {
+  constructor() {
     this.root = null
     this.height = 0
   }
 
-  private findNode (value: T): BinaryNode<T> | null {
-    function walk (curr: BinaryNode<T> | null, value: T): BinaryNode<T> | null {
-      if (curr === null) {
-        return null
-      }
-
-      if (curr.value === value) {
-        return curr
-      }
-      walk(curr.left, value)
-      walk(curr.right, value)
-
-      return null
-    }
-
-    return walk(this.root, value)
-  }
-
-  private addNode (node: BinaryNode<T>): void {}
-
-  // add
-  // public add() {}
-
-  // get
-  // update
-  // delete
-  public delete (value: T): BinarySearchTree<T> {
-    const node = this.findNode(value)
-
-    // value not found
+  // O(h) donde h significa altura `height`
+  // va entre O(log n) y O(n) dependiendo de que tan balanceado este el arbol
+  public find(node: IBinaryNode<T> | null = this.root, value: T): boolean {
     if (node === null) {
-      console.log('Not found!', value)
-      return this
+      return false
     }
 
-    // if node has two childs
-    // if (node.left !== null && node.right !== null) {
-    //   // What to do?
-    //   // Add left node to parent
-    //   if (node.parent.left === node) {
-    //     node.parent.left = node.left
-    //   } else {
-    //     node.parent.right = node.left
-    //   }
-    //   // Add right node (or tree) to the first node with less than two childs
-    //   this.addNode(node.right)
-    //   node = null
-    // }
+    if (node.value === value) {
+      return true
+    }
 
-    // // if node has 0 ó 1 child
-    // node = node.left !== null ? node.left : node.right
+    if (node.value < value) {
+      return this.find(node.right, value)
+    }
 
-    return this
+    return this.find(node.left, value)
   }
 
-  // delete all
-  public deleteAll (): BinarySearchTree<T> {
-    this.root = null
-    return this
+  public insert(value: T): void {
+    const newNode: IBinaryNode<T> = { value, left: null, right: null }
+    if (this.root === null) {
+      this.root = newNode
+      return
+    }
+
+    const dfs = (node: IBinaryNode<T>): void => {
+      if (value <= node.value) {
+        if (node.left === null) {
+          node.left = newNode
+          return
+        }
+        dfs(node.left)
+      } else if (value > node.value) {
+        if (node.right === null) {
+          node.right = newNode
+          return
+        }
+        dfs(node.right)
+      }
+    }
+
+    dfs(this.root)
   }
+
+  // public delete(value: T): void {
+  //   if (this.root === null) {
+  //     return
+  //   }
+
+  //   const dfs = (node: BinaryNode<T>): boolean => {
+  //     const deleteChild = (child: BinaryNode<T> | null): void => {
+  //       if (child == null) {
+  //         return
+  //       }
+  //       // caso 1 nodo no tiene hijos
+  //       // se borra
+  //       if (child.left === null && child.right === null) {
+  //         child = null
+  //         return
+  //       }
+  //       // caso 2 nodo tiene 1 hijo
+  //       // se apunta la referencia del padre hacia el hijo del nodo
+  //       if (child.left === null || child.right === null) {
+  //         child = child.left != null || child.right
+  //         return
+  //       }
+  //       // caso 3 tiene 2 hijos 😵
+  //       // Busco ó el mas grande del lado izq (1 mov a la izq y recto por la derecha hasta topar null)
+  //       // ó el mas pequeño del lado der (1 mov a la der y recto por la izquierda hasta topar null)
+  //       // así me aseguro de mantener el balance
+  //       let largerAtLeft = child.left.right
+
+  //       // caso 3.1 al buscar el mayor a la izq el primer nodo a la izq tiene null a su derecha!
+  //       if (largerAtLeft === null) {
+  //         child.left.right = child.right
+  //         child = child.left
+  //         return
+  //       }
+
+  //       while (largerAtLeft.right !== null) {
+  //         largerAtLeft = largerAtLeft.right
+  //       }
+  //       child.value = largerAtLeft.value
+  //       largerAtLeft = null
+  //     }
+
+  //     if (node === null) {
+  //       return false
+  //     }
+
+  //     if (value <= node.value) {
+  //       dfs(node.left)
+  //     } else if (value > node.value) {
+  //       dfs(node.right)
+  //     }
+
+  //     return false
+  //   }
+  //   // * También se puede guardar el h en cada nodo y tratar de rebalancear el árbol en cada delete para mejorarlo
+
+  //   dfs(this.root)
+  // }
 }
