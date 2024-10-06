@@ -1,11 +1,11 @@
-import { LinkedNode } from '@/data_structures/linked_node'
+import { ILinkedNode } from '@/interfaces/nodes'
 import { hasValue } from '@/utils'
 import { ILinkedList } from '@/interfaces/linked_list'
 
 export class LinkedList<T> implements ILinkedList<T> {
   public length: number
-  private head?: LinkedNode<T>
-  private tail?: LinkedNode<T>
+  private head?: ILinkedNode<T>
+  private tail?: ILinkedNode<T>
 
   constructor() {
     this.head = undefined
@@ -19,13 +19,13 @@ export class LinkedList<T> implements ILinkedList<T> {
   }: {
     index?: number
     item?: T
-  }): [number, LinkedNode<T>] | undefined {
+  }): [number, ILinkedNode<T>] | undefined {
     if ((!hasValue(index) && !hasValue(item)) || this.head === undefined) {
       return
     }
 
     let i = 0
-    let curr: LinkedNode<T> | undefined = this.head
+    let curr: ILinkedNode<T> | undefined = this.head
 
     while (curr !== undefined) {
       if (hasValue(index) && index === i) {
@@ -65,7 +65,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return // position doesn't exist on the list
     }
 
-    const newNode = new LinkedNode<T>(item)
+    const newNode = item as ILinkedNode<T>
     newNode.next = node.next
     node.next = newNode
 
@@ -137,7 +137,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode(item)
+    const newNode = item as ILinkedNode<T>
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
@@ -156,7 +156,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return
     }
 
-    const newNode = new LinkedNode(item)
+    const newNode = item as ILinkedNode<T>
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = newNode
@@ -179,7 +179,7 @@ export class LinkedList<T> implements ILinkedList<T> {
 
   reverse(): void {
     this.tail = this.head
-    const walk = (node: LinkedNode<T> | undefined): void => {
+    const walk = (node: ILinkedNode<T> | undefined): void => {
       const curr = node?.next
       if (this.length <= 1 || !node || !curr) {
         return // list has one or 0 items reverse has no action
