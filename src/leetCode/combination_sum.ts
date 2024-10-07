@@ -30,30 +30,29 @@
 
 function combinationSum (candidates: number[], target: number): number[][] {
   const out: number[][] = []
-  let idx = 0
-
-  const walk = (target: number, comb: number[]): void => {
+  const length = candidates.length
+  const walk = (start: number, target: number, comb: number[]): void => {
     if (target === 0) {
-      out.push(comb)
+      out.push([...comb])
+      return
+    }
+
+    if (target < 0) {
+      return
+    }
+
+    for (let i = start; i < length; i++) {
+      const curr = candidates[i]
+      if (curr > target) continue
+      comb.push(curr)
+      walk(i, target - curr, comb)
       comb.pop()
-      idx++
-      return
     }
-
-    const curr = candidates[idx]
-    if (target < curr) {
-      idx++
-      return
-    }
-
-    comb.push(curr)
-
-    walk(target - curr, comb)
   }
 
-  walk(target, [])
+  walk(0, target, [])
 
   return out
 };
 
-console.log(combinationSum([2, 3, 6, 7], 7))
+console.log('response', combinationSum([2, 3, 6, 7], 7))
