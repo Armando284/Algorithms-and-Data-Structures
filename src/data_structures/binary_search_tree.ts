@@ -4,14 +4,14 @@ export class BinarySearchTree<T> {
   private root: IBinaryNode<T> | null
   height: number
 
-  constructor() {
+  constructor () {
     this.root = null
     this.height = 0
   }
 
   // O(h) donde h significa altura `height`
   // va entre O(log n) y O(n) dependiendo de que tan balanceado este el arbol
-  public find(node: IBinaryNode<T> | null = this.root, value: T): boolean {
+  public find (node: IBinaryNode<T> | null = this.root, value: T): boolean {
     if (node === null) {
       return false
     }
@@ -27,7 +27,7 @@ export class BinarySearchTree<T> {
     return this.find(node.left, value)
   }
 
-  public insert(value: T): void {
+  public insert (value: T): void {
     const newNode: IBinaryNode<T> = { value, left: null, right: null }
     if (this.root === null) {
       this.root = newNode

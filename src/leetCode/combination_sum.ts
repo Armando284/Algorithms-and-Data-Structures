@@ -28,6 +28,32 @@
   * Output: []
   */
 
-// function combinationSum(candidates: number[], target: number): number[][] {
+function combinationSum (candidates: number[], target: number): number[][] {
+  const out: number[][] = []
+  let idx = 0
 
-// };
+  const walk = (target: number, comb: number[]): void => {
+    if (target === 0) {
+      out.push(comb)
+      comb.pop()
+      idx++
+      return
+    }
+
+    const curr = candidates[idx]
+    if (target < curr) {
+      idx++
+      return
+    }
+
+    comb.push(curr)
+
+    walk(target - curr, comb)
+  }
+
+  walk(target, [])
+
+  return out
+};
+
+console.log(combinationSum([2, 3, 6, 7], 7))

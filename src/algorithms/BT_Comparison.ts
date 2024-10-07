@@ -2,7 +2,7 @@
 // Recursion keeps shape so DFS is mandatory
 import { IBinaryNode } from '@/interfaces/nodes'
 
-export default function compare(
+export default function compare (
   a: IBinaryNode<number> | null,
   b: IBinaryNode<number> | null
 ): boolean {

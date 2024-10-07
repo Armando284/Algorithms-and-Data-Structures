@@ -1,7 +1,7 @@
 import { IBinaryNode } from '@/interfaces/nodes'
 
-export default function inOrder(root: IBinaryNode<number>): number[] {
-  function walk(curr: IBinaryNode<number> | null, path: number[]): number[] {
+export default function inOrder (root: IBinaryNode<number>): number[] {
+  function walk (curr: IBinaryNode<number> | null, path: number[]): number[] {
     if (curr === null) {
       return path
     }

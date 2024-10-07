@@ -1,25 +1,25 @@
-import { LinkedNode } from '@/data_structures/linked_node'
+import { ILinkedNode } from '@/interfaces/nodes'
 import { hasValue } from '@/utils'
 import { ILinkedList } from '@/interfaces/linked_list'
 
 export default class DoubleLinkedList<T> implements ILinkedList<T> {
   public length: number
-  private head?: LinkedNode<T>
-  private tail?: LinkedNode<T>
+  private head?: ILinkedNode<T>
+  private tail?: ILinkedNode<T>
 
-  constructor() {
+  constructor () {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  private findNode({
+  private findNode ({
     index,
     item
   }: {
     index?: number
     item?: T
-  }): LinkedNode<T> | undefined {
+  }): ILinkedNode<T> | undefined {
     if (
       (!hasValue(index) && !hasValue(item)) ||
       this.length === 0 ||
@@ -28,7 +28,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
       return
     }
     let i = 0
-    let curr: LinkedNode<T> | undefined = this.head
+    let curr: ILinkedNode<T> | undefined = this.head
 
     while (curr !== undefined) {
       if (hasValue(index) && index === i) {
@@ -44,7 +44,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  insertAt(item: T, index: number): void {
+  insertAt (item: T, index: number): void {
     if (!hasValue(item)) {
       return
     }
@@ -67,7 +67,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
       return // position doesn't exist on the list
     }
 
-    const newNode = new LinkedNode<T>(item)
+    const newNode = item as ILinkedNode<T>
     newNode.next = node.next
     if (node.next != null) {
       node.next.prev = newNode
@@ -78,13 +78,13 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  private removeAll(): void {
+  private removeAll (): void {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  remove(item: T): T | undefined {
+  remove (item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
@@ -124,7 +124,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     return item
   }
 
-  removeAt(index: number): T | undefined {
+  removeAt (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
@@ -164,12 +164,12 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     return node.value
   }
 
-  append(item: T): void {
+  append (item: T): void {
     if (!hasValue(item)) {
       return
     }
 
-    const newNode = new LinkedNode(item)
+    const newNode = item as ILinkedNode<T>
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = this.tail = newNode
@@ -183,12 +183,12 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  prepend(item: T): void {
+  prepend (item: T): void {
     if (!hasValue(item)) {
       return
     }
 
-    const newNode = new LinkedNode(item)
+    const newNode = item as ILinkedNode<T>
 
     if (this.head === undefined || this.tail === undefined) {
       this.head = this.tail = newNode
@@ -202,7 +202,7 @@ export default class DoubleLinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  get(index: number): T | undefined {
+  get (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }

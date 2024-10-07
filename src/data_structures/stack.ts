@@ -1,9 +1,9 @@
 import { hasValue } from '@/utils'
-import { LinkedNode } from './linked_node'
+import { ILinkedNode } from '@/interfaces/nodes'
 
 export class Stack<T> {
   public length: number
-  private head?: LinkedNode<T>
+  private head?: ILinkedNode<T>
 
   constructor () {
     this.head = undefined
@@ -15,7 +15,7 @@ export class Stack<T> {
       return
     }
 
-    const node = new LinkedNode<T>(item)
+    const node = item as ILinkedNode<T>
     this.length++
 
     if (this.head === undefined) {

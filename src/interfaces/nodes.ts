@@ -1,6 +1,6 @@
 export interface ILinkedNode<T> {
-  value: T,
-  prev?: ILinkedNode<T>,
+  value: T
+  prev?: ILinkedNode<T>
   next?: ILinkedNode<T>
 }
 

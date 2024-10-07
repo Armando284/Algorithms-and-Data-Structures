@@ -1,9 +1,9 @@
-import { LinkedNode } from './linked_node'
+import { ILinkedNode } from '@/interfaces/nodes'
 
 export class Queue<T> {
   public length: number
-  private head?: LinkedNode<T>
-  private tail?: LinkedNode<T>
+  private head?: ILinkedNode<T>
+  private tail?: ILinkedNode<T>
 
   constructor () {
     this.head = undefined
@@ -13,7 +13,7 @@ export class Queue<T> {
 
   enqueue (item: T): void {
     this.length++
-    const node = new LinkedNode<T>(item)
+    const node = item as ILinkedNode<T>
     if (this.head === undefined || this.tail === undefined) {
       this.head = node
       this.tail = node
