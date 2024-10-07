@@ -32,10 +32,7 @@ jobs:
 
       # Paso 3: Instalar dependencias (solo si no existe cache)
       - name: Install dependencies
-        run: |
-          cd Algorithms-and-Data-Structures
-          ls
-          npm install
+        run: npm install
         if: steps.cache-deps.outputs.cache-hit != 'true'
 
   # Trabajo de Linter
@@ -48,7 +45,7 @@ jobs:
       # Paso 4: Correr el linter
       - name: Run ESLint
         run: |
-          cd Algorithms-and-Data-Structures
+          ls
           npm run lint
 
   # Trabajo de Tests
