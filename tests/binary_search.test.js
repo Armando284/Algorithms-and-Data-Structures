@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { binarySearch } from '../src/binary_search'
+import { binarySearch } from '../src/algorithms/binary_search'
 
 test('Find 3 in [1,2,3,4]', () => {
   expect(binarySearch([1, 2, 3, 4], 3)).toBeTruthy()
