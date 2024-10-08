@@ -46,6 +46,9 @@ jobs:
       - name: Run ESLint
         run: |
           ls -la
+          cd ..
+          ls -la
+          cd ..
           npm run lint
 
   # Trabajo de Tests
