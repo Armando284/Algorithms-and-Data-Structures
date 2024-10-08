@@ -49,6 +49,7 @@ jobs:
           cd ..
           ls -la
           cd ..
+          ls -la
           npm run lint
 
   # Trabajo de Tests
