@@ -7,13 +7,13 @@ export class LinkedList<T> implements ILinkedList<T> {
   private head?: ILinkedNode<T>
   private tail?: ILinkedNode<T>
 
-  constructor() {
+  constructor () {
     this.head = undefined
     this.tail = undefined
     this.length = 0
   }
 
-  private findNode({
+  private findNode ({
     index,
     item
   }: {
@@ -42,7 +42,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  insertAt(item: T, index: number): void {
+  insertAt (item: T, index: number): void {
     if (!hasValue(item)) {
       return
     }
@@ -72,7 +72,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  remove(item: T): T | undefined {
+  remove (item: T): T | undefined {
     if (!hasValue(item)) {
       return
     }
@@ -102,7 +102,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  removeAt(index: number): T | undefined {
+  removeAt (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
@@ -132,7 +132,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   }
 
-  append(item: T): void {
+  append (item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -151,7 +151,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  prepend(item: T): void {
+  prepend (item: T): void {
     if (!hasValue(item)) {
       return
     }
@@ -170,22 +170,22 @@ export class LinkedList<T> implements ILinkedList<T> {
     this.length++
   }
 
-  get(index: number): T | undefined {
+  get (index: number): T | undefined {
     if (!hasValue(index)) {
       return
     }
     return this.findNode({ index })?.[1].value
   }
 
-  reverse(): void {
+  reverse (): void {
     this.tail = this.head
     const walk = (node: ILinkedNode<T> | undefined): void => {
       const curr = node?.next
-      if (this.length <= 1 || !node || !curr) {
+      if (this.length <= 1 || (node == null) || (curr == null)) {
         return // list has one or 0 items reverse has no action
       }
 
-      if (!curr.next) {
+      if (curr.next == null) {
         curr.next = node
         this.head = curr
         return
