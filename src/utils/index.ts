@@ -21,3 +21,14 @@ export class NotFoundError extends Error {
     this.message = message
   }
 }
+
+export function LogFunction (
+  fn: (args: any) => any,
+  ...args: any
+): void {
+  console.log(`Calling ${fn.name} with args: ${JSON.stringify(args)}.`)
+  const t0 = performance.now()
+  const result = fn(args)
+  console.log(`Result: ${JSON.stringify(result)}.`)
+  console.log(`Finished in: ${(performance.now() - t0).toPrecision(2)}ms.`)
+}
